@@ -1,8 +1,14 @@
 # JsApiFromGrape
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/js_api_from_grape`. To experiment with that code, run `bin/console` for an interactive prompt.
+I just have an idea that we can generate js API library from [grape](https://github.com/ruby-grape/grape), so at least we don't need to validate the params.
+This repo is just for this idea.
 
-TODO: Delete this and the text above, and describe your gem
+## Problem and Warning
+
+* I use [url-pattern](https://github.com/snd/url-pattern) to test whether the path can be used or not. But I'm not sure `url-pattern` can test all path we use in `grape`. If not, I might write some test refer to [mustermann19](https://github.com/namusyaka/mustermann19).
+* I use `Promise` and `fetch` API. This work for me in Chrome, but it should have compatibility problem. Might use babel-polyfill.
+* Still need to do the validator and the usage.
+* *Not ready for production*
 
 ## Installation
 
@@ -22,7 +28,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+I guess you will just add a method like `add_js_api`. Then it might use an api to return the js, or might generate the js file which you can use in Rails.
 
 ## Development
 

@@ -23,8 +23,24 @@ module Grape
             const targetAPI = this.apis.find(function (api){
               return method === api.method && (new UrlPattern(api.path).match(path))
             })
-            // validate params
+            // get the params from path
+            Object.assign(params, new UrlPattern(targetAPI.path).match(path))
+
             if(targetAPI) {
+              // validate params
+              var error = null;
+              Object.keys(targetAPI.params).forEach(key => {
+                if(targetAPI.params[key].required && (params[key] === null || params[key] === undefined || params[key] === '')) {
+                  error = new Error(`${key} is required`);
+                }
+              })
+
+              if (error) {
+                return new Promise(function (resolve, rejected){
+                  rejected(error);
+                })
+              }
+
               return fetch(path, Object(params, { method }));
             }
             return new Promise(function (resolve, rejected) {
@@ -52,6 +68,7 @@ class API < Grape::API
     desc 'Return a post.'
     params do
       requires :id, type: Integer, desc: 'Post id.'
+      requires :page, type: Integer
     end
     route_param :id do
       get do
